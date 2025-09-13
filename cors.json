@@ -1,0 +1,6 @@
+[{
+  "origin": ["https://9000-firebase-ai-poweredjobsearch-1757352801744.cluster-zsqzu5kebnaemxbyqrvoim2lxo.cloudworkstations.dev"],
+  "method": ["GET", "PUT", "POST", "DELETE", "HEAD", "OPTIONS"],
+  "maxAgeSeconds": 3600,
+  "responseHeader": ["Content-Type", "Authorization", "Content-Length", "User-Agent", "x-goog-resumable"]
+}]

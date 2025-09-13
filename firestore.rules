@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow users to read a list of their own applications
+    match /applications/{applicationId} {
+      allow list: if request.auth != null && request.query.resource.data.userId == request.auth.uid;
+      allow read, write, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+    }
+    
+    // Allow users to manage their own resumes
+    match /resumes/{resumeId} {
+      allow read, write, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Allow users to manage their own interviews
+    match /interviews/{interviewId} {
+      allow read, write: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      match /turns/{turnId} {
+        allow read, write: if request.auth != null && get(/databases/$(database)/documents/interviews/$(interviewId)).data.userId == request.auth.uid;
+      }
+    }
+  }
+}
